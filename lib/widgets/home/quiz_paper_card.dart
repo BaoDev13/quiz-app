@@ -34,20 +34,25 @@ class QuizPaperCard extends GetView<QuizPaperController> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: UIParameters.cardBorderRadius,
-                      child: ColoredBox(
-                          color:
-                              Theme.of(context).primaryColor.withOpacity(0.1),
-                          child: SizedBox(
-                            width: 65,
-                            height: 65,
-                            child: model.imageUrl == null ||
-                                    model.imageUrl!.isEmpty
-                                ? null
-                                : Image.network(model.imageUrl!),
-                          )),
-                    ),
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: UIParameters.cardBorderRadius,
+                            child: ColoredBox(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.1),
+                                child: SizedBox(
+                                  width: 65,
+                                  height: 65,
+                                  child: model.imageUrl == null ||
+                                          model.imageUrl!.isEmpty
+                                      ? null
+                                      : Image.network(model.imageUrl!),
+                                )),
+                          )
+                        ]),
                     const SizedBox(
                       width: 12,
                     ),

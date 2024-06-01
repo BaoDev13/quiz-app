@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:quizz_app/configs/configs.dart';
 import 'package:quizz_app/controllers/controllers.dart';
 import 'package:quizz_app/screens/auth_and_profile/profile_screen.dart';
+import 'package:quizz_app/screens/leaderboard/leaderboard_screen.dart';
+import 'package:quizz_app/screens/screens.dart';
 
 class CustomDrawer extends GetView<MyDrawerController> {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -72,14 +74,30 @@ class CustomDrawer extends GetView<MyDrawerController> {
                   Obx(
                     () => controller.user.value == null
                         ? const SizedBox()
-                        : Text(
-                            'Hello ${controller.user.value!.displayName}' ?? '',
+                        : Text('Hello ${controller.user.value!.displayName}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.w900,
                                 fontSize: 18,
                                 color: kOnSurfaceTextColor)),
                   ),
                   const Spacer(flex: 1),
+                  _DrawerButton(
+                    isVisible: controller.user.value != null,
+                    icon: Icons.person,
+                    label: 'View Profile',
+                    onPressed: () {
+                      Get.toNamed(ProfileScreen.routeName);
+                      print(ProfileScreen.routeName);
+                    },
+                  ),
+                  _DrawerButton(
+                    icon: Icons.info,
+                    label: 'About',
+                    onPressed: () {
+                      Get.toNamed(AboutScreen.routeName);
+                      print(AboutScreen.routeName);
+                    },
+                  ),
                   const Spacer(flex: 4),
                   _DrawerButton(
                     isVisible: controller.user.value != null,
@@ -116,7 +134,8 @@ class _DrawerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!isVisible) {
-      return SizedBox.shrink(); // Trả về một widget trống để ẩn đi phần button
+      return const SizedBox
+          .shrink(); // Trả về một widget trống để ẩn đi phần button
     }
     return TextButton.icon(
         onPressed: onPressed,

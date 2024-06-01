@@ -19,6 +19,7 @@ class AppRoutes {
               Get.put(QuizPaperController());
               Get.put(MyDrawerController());
             })),
+        GetPage(page: () => const AboutScreen(), name: AboutScreen.routeName),
         GetPage(page: () => const LoginScreen(), name: LoginScreen.routeName),
         GetPage(
             page: () => const ProfileScreen(),

@@ -17,12 +17,8 @@ extension QuizeResult on QuizController {
   }
 
   String get points {
-    var points = (correctQuestionCount / allQuestions.length) *
-        100 *
-        (quizPaperModel.timeSeconds - remainSeconds) /
-        quizPaperModel.timeSeconds *
-        100;
-    return points.toStringAsFixed(2);
+    var points = (correctQuestionCount / allQuestions.length) * 100;
+    return points.toInt().toString();
   }
 
   Future<void> saveQuizResults() async {

@@ -41,8 +41,8 @@ class HomeScreen extends GetView<MyDrawerController> {
                       Transform.translate(
                         offset: const Offset(-10, 0),
                         child: CircularButton(
-                          child: const Icon(AppIcons.menuleft),
                           onTap: controller.toggleDrawer,
+                          child: const Icon(AppIcons.menuleft),
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -79,32 +79,41 @@ class HomeScreen extends GetView<MyDrawerController> {
                     child: ContentArea(
                       addPadding: false,
                       child: Obx(
-                        () => LiquidPullToRefresh(
-                          height: 150,
-                          springAnimationDurationInMilliseconds: 500,
-                          //backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
-                          color:
-                              Theme.of(context).primaryColor.withOpacity(0.5),
-                          onRefresh: () async {
-                            _quizePprContoller.getAllPapers();
-                          },
-                          child: ListView.separated(
-                            padding: UIParameters.screenPadding,
-                            shrinkWrap: true,
-                            itemCount: _quizePprContoller.allPapers.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return QuizPaperCard(
-                                model: _quizePprContoller.allPapers[index],
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const SizedBox(
-                                height: 20,
-                              );
-                            },
-                          ),
-                        ),
+                        () {
+                          if (_quizePprContoller.isLoading.value) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            return LiquidPullToRefresh(
+                              height: 150,
+                              springAnimationDurationInMilliseconds: 500,
+                              //backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.5),
+                              onRefresh: () async {
+                                _quizePprContoller.getAllPapers();
+                              },
+                              child: ListView.separated(
+                                padding: UIParameters.screenPadding,
+                                shrinkWrap: true,
+                                itemCount: _quizePprContoller.allPapers.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return QuizPaperCard(
+                                    model: _quizePprContoller.allPapers[index],
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return const SizedBox(
+                                    height: 20,
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
                   ),

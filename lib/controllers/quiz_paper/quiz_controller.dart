@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:quizz_app/controllers/auth_controller.dart';
@@ -98,6 +99,7 @@ class QuizController extends GetxController {
     }
 
     if (quizPaper.questions != null && quizPaper.questions!.isNotEmpty) {
+      shuffleQuestions(quizPaper.questions!);
       allQuestions.assignAll(quizPaper.questions!);
       currentQuestion.value = quizPaper.questions![0];
       _startTimer(quizPaper.timeSeconds);
@@ -105,6 +107,10 @@ class QuizController extends GetxController {
     } else {
       loadingStatus.value = LoadingStatus.noReult;
     }
+  }
+
+  void shuffleQuestions(List<Question> questions) {
+    questions.shuffle(Random());
   }
 
   Rxn<Question> currentQuestion = Rxn<Question>();

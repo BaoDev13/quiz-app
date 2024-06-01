@@ -23,11 +23,12 @@ class LoginScreen extends GetView<AuthController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset('assets/images/app_splash_logo.svg'),
+              Image.asset('assets/images/icons8-quizizz-128.png'),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 60),
                 child: Text(
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                  'Welcome to Quizz App!\n\n'
+                  'Unlock your potential with Quizz App, where learning meets fun. Dive into a world of knowledge and challenge yourself with our diverse quizzes. Whether you\'re here to learn something new or test your existing skills, we\'re excited to have you on board. Log in to get started and track your progress!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: kOnSurfaceTextColor, fontWeight: FontWeight.bold),

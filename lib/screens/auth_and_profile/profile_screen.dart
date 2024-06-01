@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quizz_app/configs/configs.dart';
 import 'package:quizz_app/controllers/controllers.dart';
+import 'package:quizz_app/widgets/dialogs/update-profile-dialog.dart';
 import 'package:quizz_app/widgets/widgets.dart';
 
 class ProfileScreen extends GetView<ProfileController> {
@@ -35,10 +36,32 @@ class ProfileScreen extends GetView<ProfileController> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Text(
-                        _auth.getUser()!.displayName ?? '',
-                        style: kHeaderTS,
-                      )
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _auth.getUser()!.displayName ?? '',
+                            style: kHeaderTS,
+                          ),
+                          Text(
+                            _auth.getUser()!.email ?? '',
+                            style: TextStyle(
+                              color: kOnSurfaceTextColor.withOpacity(0.7),
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          // Show dialog to change name and photo
+                          showDialog(
+                            context: context,
+                            builder: (context) => UpdateProfileDialog(),
+                          );
+                        },
+                      ),
                     ],
                   ),
                   const Padding(
@@ -54,8 +77,8 @@ class ProfileScreen extends GetView<ProfileController> {
               ),
             ),
             Expanded(
-              child: Obx(
-                () => ContentArea(
+              child: Obx(() {
+                return ContentArea(
                   addPadding: false,
                   child: ListView.separated(
                     padding: UIParameters.screenPadding,
@@ -66,12 +89,17 @@ class ProfileScreen extends GetView<ProfileController> {
                       );
                     },
                     itemBuilder: (BuildContext context, int index) {
-                      return RecentQuizCard(
-                          recentTest: controller.allRecentTest[index]);
+                      if (controller.isLoading.value) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        return RecentQuizCard(
+                          recentTest: controller.allRecentTest[index],
+                        );
+                      }
                     },
                   ),
-                ),
-              ),
+                );
+              }),
             )
           ],
         ),

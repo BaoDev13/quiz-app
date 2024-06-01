@@ -16,9 +16,11 @@ class QuizPaperController extends GetxController {
 
   final allPapers = <QuizPaperModel>[].obs;
   final allPaperImages = <String>[].obs;
+  var isLoading = false.obs;
 
   Future<void> getAllPapers() async {
     try {
+      isLoading(true);
       QuerySnapshot<Map<String, dynamic>> data = await quizePaperFR.get();
       final paperList =
           data.docs.map((paper) => QuizPaperModel.fromSnapshot(paper)).toList();
@@ -32,6 +34,8 @@ class QuizPaperController extends GetxController {
       allPapers.assignAll(paperList);
     } catch (e) {
       AppLogger.e(e);
+    } finally {
+      isLoading(false);
     }
   }
 

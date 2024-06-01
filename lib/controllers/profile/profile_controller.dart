@@ -15,11 +15,16 @@ class ProfileController extends GetxController {
   }
 
   final allRecentTest = <RecentTest>[].obs;
+  final isLoading = true.obs;
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   getMyRecentTests() async {
     try {
       User? user = Get.find<AuthController>().getUser();
       if (user == null) return;
+      isLoading.value = true;
       QuerySnapshot<Map<String, dynamic>> data =
           await recentQuizes(userId: user.email!).get();
       final tests =
@@ -39,6 +44,26 @@ class ProfileController extends GetxController {
       allRecentTest.assignAll(tests);
     } catch (e) {
       AppLogger.e(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> updateUserProfile(String name, String? photoURL) async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      // Update Firestore
+      await _firestore.collection('users').doc(user.uid).update({
+        'name': name,
+        if (photoURL != null) 'profilepic': photoURL,
+      });
+
+      // Update Firebase Auth
+      await user.updateDisplayName(name);
+      if (photoURL != null) {
+        await user.updatePhotoURL(photoURL);
+      }
+      await user.reload();
     }
   }
 }

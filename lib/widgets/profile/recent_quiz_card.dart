@@ -1,7 +1,9 @@
 import 'package:easy_separator/easy_separator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:quizz_app/configs/configs.dart';
 import 'package:quizz_app/models/models.dart';
+import 'package:quizz_app/screens/home/home_screen.dart';
 import 'package:quizz_app/widgets/widgets.dart';
 
 class RecentQuizCard extends StatelessWidget {
@@ -105,7 +107,9 @@ class RecentQuizCard extends StatelessWidget {
           Material(
             color: Theme.of(context).primaryColor,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(HomeScreen.routeName);
+              },
               child: Ink(
                 width: double.maxFinite,
                 padding: UIParameters.screenPadding / 2,
